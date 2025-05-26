@@ -1,0 +1,72 @@
+<app-header></app-header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="login-form mx-auto">
+                <h2 class="login-header">Đăng nhập</h2>
+
+                <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone</label>
+                        <input type="text" class="form-control" id="phoneNumber" name="phone" required
+                            [(ngModel)]="phone" #phoneInput="ngModel">
+
+                        <!-- Error message -->
+                        <div *ngIf="phoneInput.touched && phone.length>3"
+                            class="text-danger mt-1">
+                            Vui lòng nhập số điện thoại hợp lệ.
+                        </div>
+
+                        <div class="divider-nospace"></div>
+                    </div>
+
+
+                    <div class="mt-5"></div>
+                    <div class="form-group password-field">
+                        <label for="password">Mật khẩu</label>
+                        <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password" required
+                            minlength="3" placeholder="Ít nhất 3 ký tự" [(ngModel)]="password" name="password">
+                        <i class="password-toggle fas" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                            (click)="togglePassword()"
+                            style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
+                        <div class="divider-nospace"></div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="form-check checkbox-text">
+                            <span style="display: flex;">
+                                <input type="checkbox" class="form-check-input" id="remember" [(ngModel)]="rememberMe" name="rememberMe">
+                                <label class="form-check-label text-start" for="remember">
+                                    Ghi nhớ đăng nhập</label>
+                            </span>
+                            <a href="#" class="register-link">Quên mật khẩu</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control access-right">
+                            <option selected disabled>Quyền đăng nhập</option>
+                            <option>Người dùng</option>
+                            <option>Quản trị viên</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="login-button" [disabled]="!loginForm.form.valid">
+                        Đăng nhập
+                    </button>
+
+                    <div *ngIf="validationErrors.length" class="text-danger mb-3">
+                        <ul>
+                            <li *ngFor="let error of validationErrors">{{ error }}</li>
+                        </ul>
+                    </div>
+
+                </form>
+                <div class="divider"></div>
+                <p class="text-center">Bạn chưa đăng ký? <span>
+                        <a href="#" class="register-link">Tạo tài khoản</a></span></p>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
