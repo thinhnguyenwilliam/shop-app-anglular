@@ -1,5 +1,10 @@
-export class UserLoginResponseDto {
-    token!: string;
-    //userId!: number;
-    //fullName!: string;
+// export class UserLoginResponseDto {
+//     token!: string;
+//     message_honey!: string;
+// }
+
+
+export interface UserLoginResponseDto {
+    token: string;
+    message_honey: string;
 }

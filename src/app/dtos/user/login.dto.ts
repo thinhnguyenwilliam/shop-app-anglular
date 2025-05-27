@@ -6,11 +6,13 @@ import {
 } from 'class-validator';
 
 export class UserLoginDto {
-    @IsPhoneNumber()
+    //@IsPhoneNumber()
     phoneNumber!: string;
 
     @MinLength(8)
     @IsNotEmpty()
     @IsString()
     password!: string;
+
+    role_id!: number;
 }

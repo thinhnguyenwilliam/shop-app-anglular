@@ -12,8 +12,7 @@
                             [(ngModel)]="phone" #phoneInput="ngModel">
 
                         <!-- Error message -->
-                        <div *ngIf="phoneInput.touched && phone.length>3"
-                            class="text-danger mt-1">
+                        <div *ngIf="phoneInput.touched && phone.length>3" class="text-danger mt-1">
                             Vui lòng nhập số điện thoại hợp lệ.
                         </div>
 
@@ -36,20 +35,28 @@
                     <div class="form-group">
                         <div class="form-check checkbox-text">
                             <span style="display: flex;">
-                                <input type="checkbox" class="form-check-input" id="remember" [(ngModel)]="rememberMe" name="rememberMe">
+                                <input type="checkbox" class="form-check-input" id="remember" [(ngModel)]="rememberMe"
+                                    name="rememberMe">
                                 <label class="form-check-label text-start" for="remember">
                                     Ghi nhớ đăng nhập</label>
                             </span>
                             <a href="#" class="register-link">Quên mật khẩu</a>
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <select class="form-control access-right">
+                        <select 
+                            class="form-control access-right" 
+                            [(ngModel)]="selectedRole"
+                            [ngModelOptions]="{standalone: true}" 
+                            name="role"
+                            (change)="onRoleChange()"
+                        >
                             <option selected disabled>Quyền đăng nhập</option>
-                            <option>Người dùng</option>
-                            <option>Quản trị viên</option>
+                            <option *ngFor="let role of roles" [ngValue]="role">{{ role.name }}</option>
                         </select>
                     </div>
+
 
                     <!-- Submit -->
                     <button type="submit" class="login-button" [disabled]="!loginForm.form.valid">
