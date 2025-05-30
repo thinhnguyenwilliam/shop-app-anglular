@@ -37,11 +37,11 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     }
   ],
   bootstrap: [
-    //HomeComponent,
+    HomeComponent,
     //DetailProductComponent,
     // OrderComponent,
     //OrderConfirmComponent,
-    LoginComponent,
+    //LoginComponent,
     // RegisterComponent
   ]
 })

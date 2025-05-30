@@ -95,10 +95,13 @@ export class LoginComponent implements OnInit {
         this.userService.login(loginDto).subscribe({
           next: (res: UserLoginResponseDto) => {
             console.log('Login successful', res);
+            // Save token whether or not "remember me" is checked (optional decision)
             if (this.rememberMe) {
-              console.log(this.rememberMe);
-              this.tokenService.setToken(res.token);
+              this.tokenService.setToken(res.token);  // store in localStorage
+            } else {
+              this.tokenService.setSessionToken(res.token);  // optionally store in sessionStorage
             }
+
           },
           error: (err) => {
             //console.error('Login failed', err.error.message_honey);
