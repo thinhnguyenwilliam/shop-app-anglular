@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from 'src/app/models/category';
 import { Product } from 'src/app/models/product';
+import { CategoryService } from 'src/app/services/Category/category.service';
 import { ProductService } from 'src/app/services/Product/product.service';
 import { environment } from 'src/environments/environment';
 
@@ -11,20 +13,51 @@ import { environment } from 'src/environments/environment';
 export class HomeComponent implements OnInit {
   products: Product[] = [];
   currentPage: number = 0;
-  itemsPerPage: number = 8;
+  itemsPerPage: number = 2;
   totalPages: number = 0;
   visiblePages: number[] = [];
+  categories: Category[] = [];
+  selectedCategoryId: number = 0;
+  keyword: string = "";
 
-  constructor(private readonly productService: ProductService) { }
+  constructor(
+    private readonly productService: ProductService,
+    private readonly categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
-    this.getProducts(this.currentPage, this.itemsPerPage);
+    this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
+    this.getCategories(0, 100);
   }
 
-  getProducts(page: number, limit: number): void {
-    this.productService.getProducts(page, limit).subscribe({
+  searchProducts() {
+    this.currentPage = 0;
+    this.itemsPerPage = 12;
+    //debugger;
+    //console.log(`Category is here: ${this.selectedCategoryId}`);
+    this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
+  }
+
+  getCategories(page: number, limit: number) {
+    this.categoryService.getCategories(page, limit).subscribe({
+      next: (categories: Category[]) => {
+        //console.log(categories);
+        //debugger;
+        this.categories = categories;
+      },
+      complete: () => {
+        //debugger;
+      },
+      error: (error: any) => {
+        console.error('Error fetching categories:', error);
+      }
+    });
+  }
+
+  getProducts(keyword: string, selectedCategoryId: number, page: number, limit: number): void {
+    this.productService.getProducts(keyword, selectedCategoryId, page, limit).subscribe({
       next: (data: any) => {
-        console.log(data);
+        //console.log(data);
         this.products = data.products.map((product: Product) => {
           return {
             ...product,
@@ -51,7 +84,7 @@ export class HomeComponent implements OnInit {
   onPageChange(page: number): void {
     if (page !== this.currentPage) {
       this.currentPage = page;
-      this.getProducts(this.currentPage, this.itemsPerPage);
+      this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
     }
   }
 
