@@ -18,7 +18,7 @@ import { UserService } from 'src/app/services/User/user.service';
 export class LoginComponent implements OnInit {
   @ViewChild('loginForm') loginForm!: NgForm;
 
-  phone: string = '1234567820';
+  phone: string = '0987687768';
   // phoneNumber = '+14155552671';  // US number with country code +1
 
   password: string = '46129573';
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
     const loginDto = plainToInstance(UserLoginDto, {
       phoneNumber: this.phone,
       password: this.password,
-      role_id: this.selectedRole?.id
+      //role_id: this.selectedRole?.id
     });
 
     // Validate the DTO
@@ -98,8 +98,6 @@ export class LoginComponent implements OnInit {
             // Save token whether or not "remember me" is checked (optional decision)
             if (this.rememberMe) {
               this.tokenService.setToken(res.token);  // store in localStorage
-            } else {
-              this.tokenService.setSessionToken(res.token);  // optionally store in sessionStorage
             }
 
           },
