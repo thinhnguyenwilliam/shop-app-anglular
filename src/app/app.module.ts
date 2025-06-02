@@ -13,7 +13,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { AppComponent } from './app.component';
-
+import { AppRoutingModule } from './app-routing.module'; 
 
 
 @NgModule({
@@ -33,7 +33,8 @@ import { AppComponent } from './app.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [
     {

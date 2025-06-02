@@ -3,6 +3,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    //"baseUrl": "src",
+    // "paths": {
+    //   "@services/*": ["app/services/*"],
+    //   "@dtos/*": ["app/dtos/*"],
+    //   "@models/*": ["app/models/*"]
+    // },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,

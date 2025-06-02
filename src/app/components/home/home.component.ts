@@ -4,6 +4,7 @@ import { Product } from 'src/app/models/product';
 import { CategoryService } from 'src/app/services/Category/category.service';
 import { ProductService } from 'src/app/services/Product/product.service';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ import { environment } from 'src/environments/environment';
 export class HomeComponent implements OnInit {
   products: Product[] = [];
   currentPage: number = 0;
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 8;
   totalPages: number = 0;
   visiblePages: number[] = [];
   categories: Category[] = [];
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private readonly productService: ProductService,
-    private readonly categoryService: CategoryService
+    private readonly categoryService: CategoryService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {
@@ -105,6 +107,12 @@ export class HomeComponent implements OnInit {
     }
 
     return pages;
+  }
+
+  onProductClick(productId: number) {
+    //debugger
+    // Điều hướng đến trang detail-product với productId là tham số
+    this.router.navigate(['/products', productId]);
   }
 
 

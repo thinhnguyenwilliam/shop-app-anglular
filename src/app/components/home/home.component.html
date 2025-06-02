@@ -1,5 +1,4 @@
 <div class="d-flex flex-column min-vh-100">
-    <app-header></app-header>
     <div class="container flex-grow-1">
         <div class="intro-section">
             <h1>Đây là trang Home</h1>
@@ -21,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-6" *ngFor="let product of products">
-                <div class="product-item">
+                <button class="product-item" (click)="onProductClick(product.id)">
                     <img [src]="product.url" [alt]="product.name" class="product-image">
                     <h3 class="product-name">{{product.name}}</h3>
                     <p class="product-description">{{product.description}}</p>
@@ -36,7 +35,7 @@
                         <span class="space-x"></span>
                         <button class="btn btn-success">Mua ngay</button>
                     </div>
-                </div>
+                </button>
             </div>
         </div>
         <div class="d-flex justify-content-center">
@@ -67,5 +66,4 @@
             </nav>
         </div>
     </div>
-    <app-footer></app-footer>
 </div>

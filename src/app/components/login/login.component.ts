@@ -6,9 +6,14 @@ import { validate } from 'class-validator';
 import { Role } from 'src/app/dtos/roles/role.dto';
 import { UserLoginResponseDto } from 'src/app/dtos/user/login-response.dto';
 import { UserLoginDto } from 'src/app/dtos/user/login.dto';
+import { UserResponse } from 'src/app/dtos/user/user.response';
 import { RoleService } from 'src/app/services/Role/role.service';
 import { TokenService } from 'src/app/services/Token/token.service';
 import { UserService } from 'src/app/services/User/user.service';
+// import { UserService } from '@services/User/user.service';
+// import { UserLoginDto } from '@dtos/user/login.dto';
+
+
 
 @Component({
   selector: 'app-login',
@@ -27,6 +32,7 @@ export class LoginComponent implements OnInit {
   validationErrors: string[] = [];
   roles: Role[] = [];
   selectedRole: Role | null = null;
+  userResponse?: UserResponse; //In TypeScript, the ? symbol after a property name indicates that the property may or may not be present
 
 
   constructor(
@@ -95,17 +101,33 @@ export class LoginComponent implements OnInit {
         this.userService.login(loginDto).subscribe({
           next: (res: UserLoginResponseDto) => {
             console.log('Login successful', res);
-            // Save token whether or not "remember me" is checked (optional decision)
+
             if (this.rememberMe) {
               this.tokenService.setToken(res.token);  // store in localStorage
             }
 
+            this.userService.getUserDetail(res.token).subscribe({
+              next: (response: any) => {
+                console.log('User details:', response);
+                this.userResponse = {
+                  ...response,
+                  date_of_birth: new Date(response.date_of_birth),
+                };
+                this.userService.saveUserResponseToLocalStorage(this.userResponse);
+                this.router.navigate(['/']);
+              },
+              error: (err) => {
+                console.error('Failed to fetch user details', err);
+              }
+            });
+
+            this.router.navigate(['/']);
           },
           error: (err) => {
-            //console.error('Login failed', err.error.message_honey);
             alert(`Lỗi: ${err.error.message_honey}`);
           }
         });
+
 
       }
     });

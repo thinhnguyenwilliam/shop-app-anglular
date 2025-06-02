@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Product } from 'src/app/models/product';
 import { CartService } from 'src/app/services/Cart/cart.service';
 import { ProductService } from 'src/app/services/Product/product.service';
@@ -49,12 +50,13 @@ export class DetailProductComponent implements OnInit {
     if (!this.isPressedAddToCart) {
       this.addToCart();
     }
-    //this.router.navigate(['/orders']);
+    this.router.navigate(['/orders']);
   }
 
   constructor(
     private readonly productService: ProductService,
-    private readonly cartService: CartService
+    private readonly cartService: CartService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {

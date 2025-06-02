@@ -9,7 +9,7 @@ export class LanguageService {
 
   constructor() {
     const savedLang = localStorage.getItem(this.storageKey);
-    this.currentLang = savedLang ?? 'en'; // If savedLang is null or undefined, it defaults to 'en'.
+    this.currentLang = savedLang ?? 'vi'; // If savedLang is null or undefined, it defaults to 'vi'.
   }
 
   setLanguage(lang: string): void {
