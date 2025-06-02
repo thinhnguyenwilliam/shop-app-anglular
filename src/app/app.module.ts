@@ -11,6 +11,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { AppComponent } from './app.component';
+
 
 
 @NgModule({
@@ -22,7 +25,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     OrderComponent,
     OrderConfirmComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    OrderDetailComponent,
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,12 +43,14 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     }
   ],
   bootstrap: [
+    AppComponent
     //HomeComponent,
     //DetailProductComponent,
-    OrderComponent,
+    //OrderComponent,
     //OrderConfirmComponent,
     //LoginComponent,
     // RegisterComponent
+    //OrderDetailComponent
   ]
 })
 export class AppModule { }

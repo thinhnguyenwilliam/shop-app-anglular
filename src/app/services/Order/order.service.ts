@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderDTO } from 'src/app/dtos/order/order.dto';
+import { OrderResponse } from 'src/app/dtos/order/order.response';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -17,5 +18,9 @@ export class OrderService {
     return this.http.post(`${this.apiUrl}/orders`, orderData, { headers });
   }
 
+  getOrderById(orderId: number): Observable<OrderResponse> {
+    const url = `${this.apiUrl}/orders/${orderId}`;
+    return this.http.get<OrderResponse>(url);
+  }
 
 }
