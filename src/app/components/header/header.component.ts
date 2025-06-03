@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserResponse } from 'src/app/dtos/user/user.response';
 import { TokenService } from 'src/app/services/Token/token.service';
 import { UserService } from 'src/app/services/User/user.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -9,17 +10,36 @@ import { UserService } from 'src/app/services/User/user.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
   userResponse?: UserResponse | null;
   isPopoverOpen = false;
+  activeNavItem: number = 0;
 
   constructor(
     private readonly userService: UserService,
-    private readonly tokenService: TokenService
+    private readonly tokenService: TokenService,
+    private readonly router: Router
   ) { }
+
+  setActiveNavItem(index: number): void {
+    this.activeNavItem = index;
+  }
 
   ngOnInit(): void {
     this.userResponse = this.userService.getUserResponseFromLocalStorage();
+    console.log(this.userResponse);
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const url = event.urlAfterRedirects;
+        if (url === '/') {
+          this.activeNavItem = 0;
+        } else if (url.startsWith('/orders')) {
+          this.activeNavItem = 2;
+        } else {
+          this.activeNavItem = -1;
+        }
+      }
+    });
   }
 
   togglePopover(event: Event): void {

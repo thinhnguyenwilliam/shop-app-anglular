@@ -15,13 +15,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active text-white" routerLink="/">Trang chủ</a>
+                        <a class="nav-link text-white" [ngClass]="{ 'active': activeNavItem === 0 }" routerLink="/"
+                            (click)="setActiveNavItem(0)">
+                            Trang chủ
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" routerLink="/">Thông báo</a>
+                        <a class="nav-link text-white" [ngClass]="{ 'active': activeNavItem === 1 }"
+                            (click)="setActiveNavItem(1)" routerLink="/">Thông báo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" routerLink="/orders">
+                        <a class="nav-link text-white" [ngClass]="{ 'active': activeNavItem === 2 }"
+                            (click)="setActiveNavItem(2)" routerLink="/orders">
                             <i class="fas fa-shopping-cart icon"></i> Giỏ hàng
                         </a>
                     </li>
@@ -47,7 +52,8 @@
                         </ng-container>
 
                         <ng-template #guestLinks>
-                            <a class="nav-link text-white" routerLink="/login">Đăng nhập</a>
+                            <a class="nav-link text-white" [ngClass]="{ 'active': activeNavItem === 3 }"
+                                (click)="setActiveNavItem(3)" routerLink="/login">Đăng nhập</a>
                         </ng-template>
                     </li>
                 </ul>
