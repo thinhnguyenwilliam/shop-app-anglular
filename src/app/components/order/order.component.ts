@@ -6,6 +6,8 @@ import { OrderService } from 'src/app/services/Order/order.service';
 import { ProductService } from 'src/app/services/Product/product.service';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TokenService } from 'src/app/services/Token/token.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -18,7 +20,7 @@ export class OrderComponent implements OnInit {
   couponCode: string = '';
   totalAmount: number = 0;
   orderData: OrderDTO = {
-    user_id: 1, // Thay bằng user_id thích hợp
+    user_id: 0, // Thay bằng user_id thích hợp
     fullname: '', // Khởi tạo rỗng, sẽ được điền từ form
     email: '', // Khởi tạo rỗng, sẽ được điền từ form
     phone_number: '', // Khởi tạo rỗng, sẽ được điền từ form
@@ -36,7 +38,10 @@ export class OrderComponent implements OnInit {
     private readonly cartService: CartService,
     private readonly productService: ProductService,
     private readonly orderService: OrderService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly tokenService: TokenService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
   ) {
     this.orderForm = this.fb.group({
       fullname: ['hoàng xx', Validators.required], // fullname là FormControl bắt buộc      
@@ -50,6 +55,10 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //this.cartService.clearCart();
+    this.orderData.user_id = this.tokenService.getUserId();
+    //console.log(this.orderData.user_id);
+
     const cart = this.cartService.getCart();
     //console.log(cart);
 
@@ -98,25 +107,28 @@ export class OrderComponent implements OnInit {
       this.orderData = {
         ...this.orderData,
         ...this.orderForm.value,
+        total_money: this.totalAmount,
+        coupon_code: this.couponCode,
         cart_items: this.cartItems.map(cartItem => ({
           product_id: cartItem.product.id,
           quantity: cartItem.quantity
         }))
       };
-      console.log(this.orderData);
+      //console.log(this.orderData);
 
       this.orderService.placeOrder(this.orderData).subscribe({
         next: (response) => {
-          console.log('Đặt hàng thành công');
-          alert('Đặt hàng thành công!');
-          this.orderForm.reset(); // ✅ Only reset on success
+          //console.log(response);
+          alert(`Đặt hàng success: ${response.note}`);
+          this.cartService.clearCart();
+          this.orderForm.reset();
+          this.router.navigate(['/']);
         },
-        complete: () => {
+        complete: () => { 
           //this.calculateTotal();
         },
         error: (error: any) => {
-          console.error('Lỗi khi đặt hàng:', error);
-          alert('Đặt hàng thất bại!');
+          alert(`Đặt hàng thất bại: ${error}`);
         },
       });
 

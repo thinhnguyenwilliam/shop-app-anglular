@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/models/product';
 import { CartService } from 'src/app/services/Cart/cart.service';
 import { ProductService } from 'src/app/services/Product/product.service';
@@ -56,7 +56,8 @@ export class DetailProductComponent implements OnInit {
   constructor(
     private readonly productService: ProductService,
     private readonly cartService: CartService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -65,7 +66,8 @@ export class DetailProductComponent implements OnInit {
     // Remove a specific product from cart
     //this.cartService.removeFromCart(2);
 
-    const idParam = 1;
+    // Lấy productId từ URL      
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
 
     // +idParam: This is a unary plus operator. It converts a string (like "5") into a number (5).
     //+("2")  // => 2 (number)

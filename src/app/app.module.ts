@@ -13,7 +13,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module'; 
+import { AppRoutingModule } from './app-routing.module';
+import { JwtModule } from '@auth0/angular-jwt';
+import { NgbModule, NgbPopoverModule  } from '@ng-bootstrap/ng-bootstrap';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 
 @NgModule({
@@ -34,7 +40,19 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    NgbModule,
+    NgbPopoverModule,
+    AppRoutingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:8088'], // Attach JWT only to this domain
+        disallowedRoutes: [
+          'http://localhost:8088/shopapp/api/v1/users/login',
+          'hhttp://localhost:8088/shopapp/api/v1/users/register'
+        ] // These routes will NOT have the token
+      },
+    }),
   ],
   providers: [
     {
